@@ -1,0 +1,53 @@
+<extend name="Base/base"/>
+<block name="body">
+        <div class="container">
+            <div class="blank"></div>
+            <div class="row">
+                <div class="col-xs-3">
+                    <img src="{$img}" width="60" height="60" />
+                </div>
+                <div class="col-xs-9">
+                    {$list['nickname']}<br/>
+                    {$list['nickname']}<br/>
+                    积分:<span class="text-danger newscore">{$list['score']}</span>
+                    <a href="javascript:;" style="float: right" class="score">签到</a>
+                </div>
+            </div>
+            <div class="blank"></div>
+            <div class="row text-center myLabel">
+                <div class="col-xs-4 label-danger"><a href="#"><span class="iconfont">&#xe60b;</span>我的资料</a></div>
+                <div class="col-xs-4 label-success"><a href="{:U('Home/Mine/repair')}"><span class="iconfont">&#xe609;</span>我的报修</a></div>
+                <div class="col-xs-4 label-primary"><a href="{:U('Home/Mine/active')}"><span class="iconfont">&#xe606;</span>报名的活动</a></div>
+            </div>
+            <div class="blank"></div>
+            <div>
+                <ul class="list-group fuwuList">
+                    <li class="list-group-item"><a href="diaochawenjuan.html" class="text-danger"><span class="iconfont">&#xe60a;</span>我的缴费账单</a> </li>
+                    <li class="list-group-item"><a href="yezhurenzheng.html" class="text-info"><span class="iconfont">&#xe608;</span>我的物业通知</a></li>
+                    <li class="list-group-item"><a href="yezhurenzheng.html" class="text-info"><span class="iconfont">&#xe607;</span>我的水电气使用</a></li>
+                    <li class="list-group-item"><a href="{:U('Home/User/logout')}" class="text-info"><span class="iconfont">&#xe607;</span>用户注销</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</block>
+<block name="script">
+    <script type="text/javascript">
+        $(function(){
+            var score = Math.ceil(Math.random()*20);//获取积分(20以内随机数)
+            var uid = {$list['uid']};//获取用户id
+            $(".score").click(function(){//给a标签添加点击事件
+                //发送post请求,传如积分和用户id
+                $.post("{:U('Home/Mine/score')}",{score:score,uid:uid},function(data){
+                    if(data.status == 0){//失败提示错误信息
+                        alert(data.info);
+                    }else{
+                        console.log($(".newscore"));//成功,写入到页面,提示成功
+                        $(".newscore").text(data.info);
+                        alert('签到成功!');
+                    }
+                });
+            })
+        });
+    </script>
+</block>

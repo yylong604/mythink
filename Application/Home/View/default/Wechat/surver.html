@@ -1,0 +1,56 @@
+<extend name="Base/base"/>
+<block name="body">
+        <div class="container-fluid">
+            <volist name="list" id="row">
+                <div class="row noticeList">
+                    <a href="{$row['url']}">
+                        <div class="col-xs-2">
+                            <img class="noticeImg" src="{$row['path']}" />
+                        </div>
+                        <div class="col-xs-10">
+                            <p class="title">{$row['title']}</p>
+                            <p class="intro">{$row['description']}</p>
+                            <p class="info">参与人数: {$row['view']} <span class="pull-right">截止时间:{$row['deadline']|date=('Y:m:d H:i'),###}</span> </p>
+                        </div>
+                    </a>
+                </div>
+            </volist>
+        </div>
+        <div><button class="btn btn-info get_more">获取更多．．．</button></div>
+    </div>
+</block>
+<block name="script">
+    <script type="application/javascript">
+        $(function(){
+            var p = 1;
+            $('.get_more').click(function(){
+                $.post("{:U('sdetail')}",{p:p+1},function(data){
+                    if(data.status == 1){
+                        p++;
+                        var Html = '';
+                        $(data.info).each(function(i,e){
+                            Html = '<div class="row noticeList">\
+                            <a href="'+ e.url +'">\
+                            <div class="col-xs-2">\
+                            <img class="noticeImg" src="'+ e.path +'" />\
+                            </div>\
+                            <div class="col-xs-10">\
+                            <p class="title">'+ e.title +'</p>\
+                            <p class="intro">'+ e.description +'</p>\
+                            <p class="info">浏览: '+ e.view +' <span class="pull-right">'+ e.create_time +'</span> </p>\
+                    </div>\
+                    </a>\
+                    </div>';
+                        });
+                        $('.main').append(Html);
+                    }else{
+                        //解除事件绑定
+                        $(".get_more").text("没有更多了");
+                        $(".get_more").addClass('btn-warning');
+                        $(".get_more").off();
+                    }
+                });
+            });
+        });
+    </script>
+</block>

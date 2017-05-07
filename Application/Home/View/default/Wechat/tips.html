@@ -1,0 +1,98 @@
+<extend name="Base/base"/>
+<block name="body">
+        <div class="container-fluid">
+            <div class="btn">
+                <button class="btn btn-default active" value="40">通知</button>
+                <button class="btn btn-default " value="41">服务</button>
+                <button class="btn btn-default " value="42">活动</button>
+            </div>
+            <div class="con">
+            <volist name="list" id="row">
+                <div class="row noticeList">
+                    <a href="{$row['url']}">
+                        <div class="col-xs-2">
+                            <img class="noticeImg" src="{$row['path']}" />
+                        </div>
+                        <div class="col-xs-10">
+                            <p class="title">{$row['title']}</p>
+                            <p class="intro">{$row['description']}</p>
+                            <p class="info">浏览: {$row['view']} <span class="pull-right">2016-05-11</span> </p>
+                        </div>
+                    </a>
+                </div>
+            </volist>
+            </div>
+            </div>
+        </div>
+    </div>
+    <!--<div class="text-center">-->
+        <!--<input type="button" class="btn btn-info get_more" value="获取更多..">-->
+    <!--</div>-->
+</block>
+<block name="script">
+<script type="application/javascript">
+$(function(){
+    //为所有button添加点击事件
+    $(".btn button").click(function(){
+        //获取点击button的值
+        var cate = $(this).val();
+        //清空原来数据
+        $('.box').empty();
+        $('.con').empty();
+        //发送ajax请求,传入category_id的值
+        $.post("{:U('tips')}",{cate:cate},function(data){
+            if(data.status == 1){
+                var Html = '';
+                $(data.info).each(function(i,e){
+                    Html = ' <div class="box" style="margin-left: 15px">\
+                    <div class="row noticeList">\
+                        <a href="'+ e.url +'">\
+                        <div class="col-xs-2">\
+                        <img class="noticeImg" src="'+ e.path +'" />\
+                        </div>\
+                        <div class="col-xs-10">\
+                        <p class="title">'+ e.title +'</p>\
+                        <p class="intro">'+ e.description +'</p>\
+                        <p class="info">浏览: '+ e.view +' <span class="pull-right">'+ e.create_time +'</span> </p>\
+                </div>\
+                </a>\
+                </div>\
+                </div>';
+                    $('.main').append(Html);
+                });
+            }
+        });
+    });
+
+//    var p = 1;
+//    $('.get_more').click(function(){
+//        $.post("{:U('active')}",{p:p+1},function(data){
+//            if(data.status == 1){
+//                p++;
+//                var Html = '';
+//                $(data.info).each(function(i,e){
+//                    Html = '<div class="row noticeList">\
+//                            <a href="'+ e.url +'">\
+//                            <div class="col-xs-2">\
+//                            <img class="noticeImg" src="'+ e.path +'" />\
+//                            </div>\
+//                            <div class="col-xs-10">\
+//                            <p class="title">'+ e.title +'</p>\
+//                            <p class="intro">'+ e.description +'</p>\
+//                            <p class="info">浏览: '+ e.view +' <span class="pull-right">'+ e.create_time +'</span> </p>\
+//                    </div>\
+//                    </a>\
+//                    </div>';
+//                });
+//                $('.main').append(Html);
+//            }else{
+//                //解除事件绑定
+//                $(".get_more").val("没有更多了");
+//                $(".get_more").addClass('btn-warning');
+//                $(".get_more").off();
+//            }
+//        });
+//    });
+});
+</script>
+</block>

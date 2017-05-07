@@ -9,19 +9,35 @@
 namespace Admin\Controller;
 
 
-class RepairController extends AdminController{
-    public function index(){
-        $pid = i('get.pid', 0);
-        /* 获取报修列表 */
-        $map  = array('status' => array('gt', -1), 'pid'=>$pid);
+use Admin\Model\RepairModel;
+use Think\Page;
 
-        $list = M('Repair')->where($map)->order('sort asc,id asc')->select();
-//        var_dump($list);exit;
-        $this->assign('list', $list);
-        $this->assign('pid', $pid);
-        $this->meta_title = '报修管理';
-        $this->display('');
+class RepairController extends AdminController{
+//    public function index(){
+//        $list =  $this->lists('Repair');
+////        var_dump($list);exit;
+//        $this->assign('list', $list);
+//        $this->meta_title = '报修管理';
+//        $this->display('');
+//    }
+    public function index()
+    {
+        $repair = D('Repair');
+        $count = $repair->count();
+        $page = new Page($count,3);
+        if($count>$page->listRows){
+            $page->setConfig('theme','%FIRST% %UP_PAGE% %LINK_PAGE% %DOWN_PAGE% %END% %HEADER%');
+        }
+        $pageHtml = $page->show();
+
+        $list = $repair->order('create_time')->limit($page->firstRow,$page->listRows)->select();
+        int_to_string($list,['status'=>[1=>'进行中',0=>'已结束']]);
+        $this->assign('list',$list);
+        $this->assign('pageHtml',$pageHtml);
+        $this->display('index');
     }
+
+
 
 
 /**
@@ -33,8 +49,6 @@ public function add(){
         $Repair = D('Repair');
         $data = $Repair->create();
         if($data){
-            $Repair->create_time =time();
-            $Repair->update_time =time();
             $Str= "abcdefghigklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
             $str=str_shuffle($Str);
             $Repair->num=substr($str,0,15);
@@ -50,14 +64,6 @@ public function add(){
             $this->error($Repair->getError());
         }
     } else {
-        $pid = i('get.pid', 0);
-        //获取父导航
-        if(!empty($pid)){
-            $parent = M('Repair')->where(array('id'=>$pid))->field('title')->find();
-            $this->assign('parent', $parent);
-        }
-
-        $this->assign('pid', $pid);
         $this->assign('info',null);
         $this->meta_title = '新增报修';
         $this->display('edit');
@@ -68,7 +74,7 @@ public function add(){
  * 编辑报修
  * @author 麦当苗儿 <zuojiazi@vip.qq.com>
  */
-public function edit($id = 0){
+public function edit($id=0){
     if(IS_POST){
         $Repair = D('Repair');
         $data = $Repair->create();
@@ -85,25 +91,19 @@ public function edit($id = 0){
             $this->error($Repair->getError());
         }
     } else {
-        $info = array();
         /* 获取数据 */
         $info = M('Repair')->find($id);
 
         if(false === $info){
             $this->error('获取配置信息错误');
         }
-
-        $pid = i('get.pid', 0);
-        //获取父导航
-        if(!empty($pid)){
-            $parent = M('Repair')->where(array('id'=>$pid))->field('title')->find();
-            $this->assign('parent', $parent);
-        }
-
-        $this->assign('pid', $pid);
         $this->assign('info', $info);
-        $this->meta_title = '编辑报修';
-        $this->display();
+        $this->display('edit');
+//        $id = I('get.id');
+//        $list = M('Repair')->find($id);
+//
+//        $this->assign('info',$list);
+//        $this->display('edit');
     }
 }
 
@@ -166,4 +166,11 @@ public function sort(){
         $this->error('非法请求！');
     }
 }
+    //详情
+    public function detail($id){
+        $detail = M('Repair')->find($id);
+        $this->assign('detail',$detail);
+        $this->display('detail');
+
+    }
 }

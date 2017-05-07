@@ -120,10 +120,11 @@
 						<td><?php echo ($repair["tel"]); ?></td>
 						<td><?php echo ($repair["address"]); ?></td>
 						<td><?php echo ($repair["title"]); ?></td>
-						<td><?php echo ($repair["create_time"]); ?></td>
-						<!--<td><a href="<?php echo U('index?pid='.$repair['id']);?>"><?php echo ($repair["title"]); ?></a></td>-->
+						<td><?php echo (date("Y-m-d H:i:s",$repair["create_time"])); ?></td>
 						<!--<td><?php echo ($repair.status== 0)? '未处理' : '处理中';?></td>-->
-						<td><?php echo ($repair["status"]); ?></td>
+						<!--<td><?php echo ($repair["status"]); ?></td>-->
+						<td><?php echo ($repair["status_text"]); ?></td>
+
 
 
 
@@ -141,7 +142,7 @@
 				<td colspan="6" class="text-center"> aOh! 暂时还没有内容! </td><?php endif; ?>
 			</tbody>
 		</table>
-		<div class="result page"><?php echo ($page); ?></div>
+		<div class="result page"><?php echo ($pageHtml); ?></div>
 	</div>
 
         </div>

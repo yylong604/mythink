@@ -38,10 +38,11 @@
 						<td>{$repair.tel}</td>
 						<td>{$repair.address}</td>
 						<td>{$repair.title}</td>
-						<td>{$repair.create_time}</td>
-						<!--<td><a href="{:U('index?pid='.$repair['id'])}">{$repair.title}</a></td>-->
+						<td>{$repair.create_time|date="Y-m-d H:i:s",###}</td>
 						<!--<td>{:($repair.status== 0)? '未处理' : '处理中'}</td>-->
-						<td>{$repair.status}</td>
+						<!--<td>{$repair.status}</td>-->
+						<td>{$repair.status_text}</td>
+
 
 
 
@@ -61,7 +62,7 @@
 				</notempty>
 			</tbody>
 		</table>
-		<div class="result page">{$page}</div>
+		<div class="result page">{$pageHtml}</div>
 	</div>
 </block>
 

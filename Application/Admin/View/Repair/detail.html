@@ -28,40 +28,44 @@
 
                     <form action="" method="post" class="form-horizontal" id="repair">
                         <div class="form-item">
-
-                            <span class="item-label">报修编号：<span class="check-tips">{$repair.num}</span></span>
+                            <span class="item-label">报修编号：
+                                    {$detail['num']}
+                            </span>
                         </div>
                         <div class="form-item">
-                            <span class="item-label">状态：<span class="check-tips">{$repair.status}</span></span>
+                            <span class="item-label">状态:
+                                {$detail['status']}
+                            </span>
                         </div>
                         <div class="form-item">
-                            <span class="item-label">报修人：<span class="check-tips">{$repair.username}</span></span>
+                            <span class="item-label">报修人：
+                                {$detail['username']}
+                            </span>
                         </div>
                         <div class="form-item">
-                            <span class="item-label">报修人电话：<span class="check-tips">{$repair.tel}</span></span>
+                            <span class="item-label">报修人电话：
+                                {$detail['tel']}
+                            </span>
                         </div>
                         <div class="form-item">
-                            <span class="item-label">标题：<span class="check-tips">{$repair.title}</span></span>
+                            <span class="item-label">标题：
+                                {$detail['title']}
+                            </span>
                         </div>
                         <div class="form-item">
                             <label class="item-label">说明</label>
                             <div class="controls">
                                 <label class="textarea input-large">
-                                    <textarea disabled="" name="remark">{$repair.content}</textarea>
+                                    <textarea disabled="" name="remark">
+                                        {$detail['content']}
+                                    </textarea>
                                 </label>
                             </div>
                         </div>
                     </form>
 
                 </div>
-
-                <!--<div class="cont-ft">-->
-                    <!--<div class="copyright">-->
-                        <!--<div class="fl">感谢使用<a href="http://www.onethink.cn" target="_blank">OneThink</a>管理平台</div>-->
-                        <!--<div class="fr">V1.1.141101</div>-->
-                    <!--</div>-->
-                <!--</div>-->
-            </div>
+        </div>
     </body>
     </html>
 </block>

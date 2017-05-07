@@ -95,4 +95,43 @@ return array(
         'callback' => false, //检测文件是否存在回调函数，如果存在返回文件信息数组
     ), //附件上传配置（文件上传类配置）
 
+    /*esaywechat微信配置*/
+    'ESAY_WECHAT'=>[
+        'debug'  => true,
+        'app_id'  => 'wx78b074f4099d7bcc',         // AppID
+        'secret'  => 'c7df9f23f161907873bf7143c239a983',     // AppSecret
+        'token'   => 'stupidfish',
+        // 'aes_key' => null, // 可选
+        'log' => [
+            'level' => 'debug',
+            'file'  => '/tmp/easywechat.log', // XXX: 绝对路径！！！！
+        ],
+        'oauth' => [
+            'scopes'   => ['snsapi_userinfo'],
+            'callback' => 'onethink/index.php/Home/Esaywechat/callback',//配置授权回调地址【配置文件里面修改】
+        ],
+        /**
+         * 微信支付
+         */
+        'payment' => [
+            'merchant_id'        => 'your-mch-id',
+            'key'                => 'key-for-signature',
+            'cert_path'          => 'path/to/your/cert.pem', // XXX: 绝对路径！！！！
+            'key_path'           => 'path/to/your/key',      // XXX: 绝对路径！！！！
+            // 'device_info'     => '013467007045764',
+            // 'sub_app_id'      => '',
+            // 'sub_merchant_id' => '',
+            // ...
+        ],
+        /**
+         * Guzzle 全局设置
+         *
+         * 更多请参考： http://docs.guzzlephp.org/en/latest/request-options.html
+         */
+        'guzzle' => [
+            'timeout' => 3.0, // 超时时间（秒）
+            //'verify' => false, // 关掉 SSL 认证（强烈不建议！！！）
+        ]
+    ],
+
 );
